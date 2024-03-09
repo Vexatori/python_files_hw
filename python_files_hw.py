@@ -46,26 +46,43 @@ def search_contact():
   with open("phone_dict.txt", "r", encoding="UTF-8") as file_data:
     contacts_str = file_data.read()
     contacts_list = [contact for contact in contacts_str.split("\n") if contact != '']
-  # matched_contacts = list(filter(lambda str: searchable_text in str.lower(), contacts_list))
   for contact in contacts_list:
     contact_values = contact.split()
-    # if searchable_text in contact.lower():
-    #   print(contact)
     if searchable_text in contact_values[search_variant - 1].lower():
       print(contact)
 
 def copy_all_file_data():
-  pass
+  file_copy_path = input("Enter file name: ")
+  source_file = open("phone_dict.txt", "r", encoding="UTF-8")
+  copy_file = open(file_copy_path, 'a', encoding="UTF-8")
+  for line in source_file:
+    copy_file.write(line)
+  source_file.close()
+  copy_file.close()
 
 def copy_file_line():
-  pass
+  source_file = open("phone_dict.txt", "r", encoding="UTF-8")
+  contacts_str = source_file.read()
+  contacts_arr = [contact for contact in contacts_str.split("\n") if contact != '']
+  source_file.close()
+
+  line_copy_number = input("Enter the number of line in the source file to copy: ")
+  phonebook_len = len(contacts_arr)
+  while line_copy_number not in [str(i) for i in range(1, phonebook_len + 1)]:
+    print(f"There are only {phonebook_len} lines in phonebook, please try again")
+    line_copy_number = input("Enter the number of line to copy: ")
+
+  line_copy_number = int(line_copy_number)
+  file_copy_path = input("Enter file name: ")
+  with open(file_copy_path, 'a', encoding="UTF-8") as copy_file:
+    copy_file.write(f"{contacts_arr[line_copy_number - 1]}\n")
 
 def ui():
   with open("phone_dict.txt", "a", encoding="UTF-8"):
     pass
 
   user_choice = 0
-  while user_choice != 4:
+  while user_choice != 6:
     print(
       "Menu:\n"
       "1. Add new contact\n"
